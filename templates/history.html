@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Historial de Compras 📚</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <style>
+    .history-container {
+      max-width: 900px;
+      margin: 4rem auto;
+      padding: 2rem;
+      background: var(--surface);
+      border-radius: 20px;
+      box-shadow:
+        0 8px 20px var(--shadow-light),
+        0 2px 6px var(--shadow-dark);
+      border: 1px solid var(--border);
+    }
+
+    .history-title {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .purchase-entry {
+      padding: 1.2rem;
+      margin-bottom: 1.2rem;
+      background: var(--main-bg);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .purchase-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .purchase-items {
+      list-style: none;
+      padding-left: 1rem;
+      margin: 0;
+    }
+
+    .purchase-items li {
+      padding: 0.2rem 0;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .back-btn {
+      display: block;
+      margin: 2rem auto 0;
+      padding: 0.75rem 1.5rem;
+      background-color: var(--accent);
+      color: #222;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: bold;
+      text-align: center;
+      width: fit-content;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .back-btn:hover {
+      background-color: #f5b623;
+    }
+
+    .no-history {
+      text-align: center;
+      color: var(--muted);
+      font-style: italic;
+    }
+  </style>
+</head>
+
+<body>
+  <section class="history-container" aria-label="Historial de compras">
+    <h1 class="history-title">📚 Historial de Compras</h1>
+
+    {% if compras %}
+    {% for compra in compras %}
+    <div class="purchase-entry">
+      <div class="purchase-header">
+        <span>{{ compra["name"] }}</span>
+        <span>Total: ${{ '%.2f'|format(compra["total"]) }}</span>
+      </div>
+
+      <ul class="purchase-items">
+        {% for item in compra["items"] %}
+        <li>{{ item["cantidad"] }} x {{ item["name"] }} @ ${{ '%.2f'|format(item["price"]) }}</li>
+        {% endfor %}
+      </ul>
+
+      <div style="margin-top: 0.8rem; font-size: 0.95rem; font-weight: 600;">
+        Presupuesto: ${{ '%.2f'|format(compra["budget"]) }}<br />
+        {% set diff = compra["budget"] - compra["total"] %}
+        {% if diff > 0 %}
+        ✅ Te sobraron ${{ '%.2f'|format(diff) }} del presupuesto.
+        {% elif diff < 0 %} ❌ Te pasaste por ${{ '%.2f' |format(-diff) }} del presupuesto. {% else %} 🎯 Usaste
+          exactamente tu presupuesto. {% endif %} </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <p class="no-history">No hay compras registradas aún. ¡Empieza a comprar para ver tu historial aquí!</p>
+      {% endif %}
+      <a href="{{ url_for('index') }}" class="back-btn">← Volver a la lista</a>
+  </section>
+</body>
+
+</html>

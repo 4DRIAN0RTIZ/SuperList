@@ -1,0 +1,12 @@
+[
+  {
+    "purchase_name": "Compra sin nombre - 05/07/2025 13:13:23",
+    "products": [
+      {
+        "name": "Azucar",
+        "cantidad": 1,
+        "price": 0.14
+      }
+    ]
+  }
+]
