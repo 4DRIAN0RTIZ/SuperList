@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Historial — SuperLista</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 8v4l3 3'/%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3C/svg%3E" type="image/svg+xml" />
+</head>
+
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="{{ url_for('index') }}" class="header-brand">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        SuperLista
+      </a>
+      <nav class="header-nav">
+        <a href="{{ url_for('index') }}" class="nav-link">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+          </svg>
+          Volver a la lista
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="history-wrapper">
+
+    <h1 class="page-title">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/>
+      </svg>
+      Historial de Compras
+    </h1>
+
+    {% if compras %}
+      {% for compra in compras %}
+      <article class="purchase-entry">
+
+        <div class="purchase-header">
+          <span class="purchase-name">{{ compra.name }}</span>
+          <span class="purchase-date">{{ compra.timestamp.strftime('%d %b %Y') }}</span>
+        </div>
+
+        <ul class="purchase-items">
+          {% for item in compra.items %}
+          <li>
+            <span>{{ item.quantity }} × {{ item.name }}</span>
+            <b>${{ '%.2f'|format(item.price * item.quantity) }}</b>
+          </li>
+          {% endfor %}
+        </ul>
+
+        <div class="purchase-footer">
+          <div style="display:flex;gap:1.5rem;flex-wrap:wrap;">
+            <span class="purchase-stat">Total: <strong>${{ '%.2f'|format(compra.total) }}</strong></span>
+            <span class="purchase-stat">Presupuesto: <strong>${{ '%.2f'|format(compra.budget) }}</strong></span>
+          </div>
+
+          {% set diff = compra.budget - compra.total %}
+          {% if diff >= 0 %}
+          <span class="badge badge-success">↑ Sobrante ${{ '%.2f'|format(diff) }}</span>
+          {% else %}
+          <span class="badge badge-danger">↓ Déficit ${{ '%.2f'|format(-diff) }}</span>
+          {% endif %}
+        </div>
+
+      </article>
+      {% endfor %}
+
+    {% else %}
+      <div class="no-history">
+        <span class="no-history-icon">🛍️</span>
+        No hay compras registradas aún.
+      </div>
+    {% endif %}
+
+  </div>
+</body>
+
+</html>
