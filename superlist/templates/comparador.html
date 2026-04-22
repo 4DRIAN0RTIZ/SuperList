@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  {% include 'partials/_head.html' with context %}
+</head>
+
+<body>
+
+  {% include 'partials/_header.html' %}
+
+  <div class="history-wrapper comparador-wrapper">
+
+    <h1 class="page-title">
+      <i class="fa-solid fa-scale-balanced"></i>
+      Comparador de Precios
+    </h1>
+
+    <p class="comparador-hint">
+      Compara el precio real por unidad de productos con distintas presentaciones.<br>
+      Usa <code>*</code> para multiplicar cantidades. Ej: <code>12 * 200</code> (12 rollos × 200 hojas).
+    </p>
+
+    <!-- Config -->
+    <div class="card comparador-config">
+      <label class="config-label">
+        <i class="fa-solid fa-tag"></i>
+        Unidad de comparación
+        <input type="text" id="unit-name" placeholder="hojas, ml, g, unidad..." maxlength="20" />
+      </label>
+    </div>
+
+    <!-- Opciones -->
+    <div id="options-list"></div>
+
+    <!-- Acciones -->
+    <div class="comparador-actions">
+      <button id="add-option-btn" class="btn btn-ghost">
+        <i class="fa-solid fa-plus"></i>
+        Agregar opción
+      </button>
+      <button id="compare-btn" class="btn btn-primary">
+        <i class="fa-solid fa-scale-balanced"></i>
+        Comparar
+      </button>
+    </div>
+
+    <!-- Resultados -->
+    <div id="results-section" class="comparador-results" hidden></div>
+
+  </div>
+
+  <script>
+    (() => {
+      let optionCount = 0;
+
+      const optionsList   = document.getElementById('options-list');
+      const resultsSection = document.getElementById('results-section');
+
+      // ── Parsear expresión de cantidad: "12 * 200" → 2400
+      function parseQty(expr) {
+        const parts = String(expr).split('*').map(s => parseFloat(s.trim()));
+        if (parts.some(isNaN)) return NaN;
+        return parts.reduce((acc, n) => acc * n, 1);
+      }
+
+      function addOption(name = '', price = '', qty = '') {
+        optionCount++;
+        const id = optionCount;
+        const card = document.createElement('div');
+        card.className = 'card option-card';
+        card.dataset.optionId = id;
+        card.innerHTML = `
+          <div class="option-header">
+            <span class="option-label">Opción ${id}</span>
+            <button class="remove-option-btn" title="Eliminar opción" aria-label="Eliminar opción ${id}">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <div class="option-fields">
+            <div class="option-field">
+              <label>Nombre <span class="optional">(opcional)</span></label>
+              <input type="text" name="opt-name" placeholder="Ej: Marca A" value="${name}" />
+            </div>
+            <div class="option-field option-field--sm">
+              <label>Precio ($)</label>
+              <input type="number" name="opt-price" placeholder="0.00" step="0.01" min="0" value="${price}" />
+            </div>
+            <div class="option-field">
+              <label>Cantidad total <span class="qty-hint" id="qty-hint-${id}"></span></label>
+              <input type="text" name="opt-qty" placeholder="Ej: 24 * 100 ó 500" value="${qty}" data-hint-id="${id}" />
+            </div>
+          </div>
+        `;
+
+        // Live qty hint
+        const qtyInput = card.querySelector('input[name="opt-qty"]');
+        const hint     = card.querySelector(`#qty-hint-${id}`);
+        qtyInput.addEventListener('input', () => updateQtyHint(qtyInput, hint));
+        if (qty) updateQtyHint(qtyInput, hint);
+
+        card.querySelector('.remove-option-btn').addEventListener('click', () => {
+          card.remove();
+          updateOptionLabels();
+        });
+
+        optionsList.appendChild(card);
+      }
+
+      function updateQtyHint(input, hint) {
+        const val = input.value.trim();
+        if (!val) { hint.textContent = ''; return; }
+        const parsed = parseQty(val);
+        hint.textContent = isNaN(parsed) ? '⚠ expresión inválida' : `= ${parsed.toLocaleString('es-MX')}`;
+        hint.className   = 'qty-hint' + (isNaN(parsed) ? ' qty-hint--error' : ' qty-hint--ok');
+      }
+
+      function updateOptionLabels() {
+        optionsList.querySelectorAll('.option-card').forEach((card, i) => {
+          card.querySelector('.option-label').textContent = `Opción ${i + 1}`;
+        });
+      }
+
+      function compare() {
+        const unitName = document.getElementById('unit-name').value.trim() || 'unidad';
+        const cards    = [...optionsList.querySelectorAll('.option-card')];
+
+        if (cards.length < 2) {
+          showError('Agrega al menos 2 opciones para comparar.');
+          return;
+        }
+
+        const options = [];
+        for (const card of cards) {
+          const name  = card.querySelector('input[name="opt-name"]').value.trim() || `Opción`;
+          const price = parseFloat(card.querySelector('input[name="opt-price"]').value);
+          const qty   = parseQty(card.querySelector('input[name="opt-qty"]').value);
+
+          if (isNaN(price) || price <= 0) {
+            showError(`"${name}": ingresa un precio válido mayor a 0.`);
+            return;
+          }
+          if (isNaN(qty) || qty <= 0) {
+            showError(`"${name}": la expresión de cantidad no es válida.`);
+            return;
+          }
+          options.push({ name, price, qty, unitPrice: price / qty });
+        }
+
+        options.sort((a, b) => a.unitPrice - b.unitPrice);
+        renderResults(options, unitName);
+      }
+
+      function renderResults(options, unitName) {
+        const best  = options[0].unitPrice;
+        const worst = options[options.length - 1].unitPrice;
+        const medals = ['🥇', '🥈', '🥉'];
+
+        const rows = options.map((opt, i) => {
+          const isBest    = i === 0;
+          const savingPct = i > 0 ? (((opt.unitPrice - best) / best) * 100).toFixed(1) : null;
+          const medal     = medals[i] || `#${i + 1}`;
+          const barPct    = worst > 0 ? ((opt.unitPrice / worst) * 100).toFixed(1) : 100;
+
+          return `
+            <div class="result-row${isBest ? ' result-row--best' : ''}">
+              <div class="result-rank">${medal}</div>
+              <div class="result-body">
+                <div class="result-name">${opt.name}</div>
+                <div class="result-meta">
+                  $${opt.price.toFixed(2)} total · ${opt.qty.toLocaleString('es-MX')} ${unitName}
+                </div>
+                <div class="result-bar-wrap">
+                  <div class="result-bar${isBest ? ' result-bar--best' : ''}" style="width:${barPct}%"></div>
+                </div>
+              </div>
+              <div class="result-unit-price">
+                <span class="result-price-value">$${formatUnitPrice(opt.unitPrice)}</span>
+                <span class="result-price-label">por ${unitName}</span>
+                ${savingPct ? `<span class="result-saving">+${savingPct}% más caro</span>` : '<span class="result-saving result-saving--best">Mejor precio</span>'}
+              </div>
+            </div>`;
+        }).join('');
+
+        resultsSection.innerHTML = `
+          <h2 class="results-title">
+            <i class="fa-solid fa-trophy"></i>
+            Resultado
+          </h2>
+          ${rows}`;
+        resultsSection.hidden = false;
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      function formatUnitPrice(val) {
+        if (val < 0.01)  return val.toFixed(5);
+        if (val < 0.1)   return val.toFixed(4);
+        if (val < 1)     return val.toFixed(3);
+        return val.toFixed(2);
+      }
+
+      function showError(msg) {
+        resultsSection.innerHTML = `
+          <div class="comparador-error">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            ${msg}
+          </div>`;
+        resultsSection.hidden = false;
+      }
+
+      // Init: 2 opciones por defecto
+      addOption();
+      addOption();
+
+      document.getElementById('add-option-btn').addEventListener('click', () => addOption());
+      document.getElementById('compare-btn').addEventListener('click', compare);
+    })();
+  </script>
+</body>
+
+</html>

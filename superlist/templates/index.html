@@ -2,132 +2,90 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8" />
-  <title>SuperLista</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='21' r='1'/%3E%3Ccircle cx='20' cy='21' r='1'/%3E%3Cpath d='M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6'/%3E%3C/svg%3E" type="image/svg+xml" />
+  {% include 'partials/_head.html' with context %}
 </head>
 
 <body>
 
-  <!-- ===== HEADER ===== -->
-  <header class="app-header">
-    <div class="header-inner">
-      <a href="{{ url_for('index') }}" class="header-brand">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-        </svg>
-        SuperLista
-      </a>
-      <nav class="header-nav">
-        <a href="{{ url_for('history') }}" class="nav-link">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/>
-          </svg>
-          Historial
-        </a>
-      </nav>
-    </div>
-  </header>
+  {% include 'partials/_header.html' %}
 
-  <!-- ===== MAIN ===== -->
-  <main class="main-container">
+  <main class="list-container">
+    <section class="card list-card">
 
-    <!-- Columna Principal: Lista -->
-    <div class="content-column">
-      <section class="card">
+      <!-- Header -->
+      <div class="list-header">
+        <h1>
+          <i class="fa-solid fa-list"></i>
+          Lista de Compras
+        </h1>
+        <span class="list-count" id="item-count">0</span>
+      </div>
 
-        <div class="list-header">
-          <h1>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/>
-              <line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/>
-              <line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
-            </svg>
-            Lista de Compras
-          </h1>
-          <span class="list-count" id="item-count">0</span>
+      <!-- Add form -->
+      <form id="add-form" novalidate autocomplete="off">
+        <div class="form-group">
+          <input type="text" name="name" placeholder="Añadir producto..." aria-label="Nombre del producto" required />
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i>
+            Añadir
+          </button>
         </div>
+      </form>
 
-        <form id="add-form" novalidate autocomplete="off">
-          <div class="form-group">
-            <input type="text" name="name" placeholder="Añadir producto..." aria-label="Nombre del producto" required />
-            <button type="submit" class="btn btn-primary">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              Añadir
-            </button>
+      <!-- Item list -->
+      <ul id="item-list" role="list" aria-live="polite"></ul>
+
+      <!-- Budget strip -->
+      <div class="budget-strip" id="budget-strip">
+        <div class="budget-strip-info">
+          <span class="budget-strip-total" id="budget-strip-total">$0.00</span>
+          <div class="progress-bar-wrap budget-strip-bar">
+            <div class="progress-bar" id="budget-progress"></div>
           </div>
-        </form>
-
-        <ul id="item-list" role="list" aria-live="polite"></ul>
-
-        <button id="reset-btn" type="button" aria-label="Limpiar lista">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-            <path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
-          </svg>
-          Limpiar todo
+          <span class="budget-strip-summary" id="budget-strip-summary" aria-live="polite"></span>
+        </div>
+        <button class="budget-strip-btn" id="budget-toggle-btn" title="Fijar presupuesto" aria-expanded="false">
+          <i class="fa-solid fa-sliders"></i>
         </button>
+      </div>
 
-      </section>
-    </div>
-
-    <!-- Sidebar -->
-    <aside class="sidebar-column">
-
-      <!-- Presupuesto -->
-      <div class="card">
-        <h2>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="display:inline;vertical-align:-2px;margin-right:4px">
-            <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-          </svg>
-          Presupuesto
-        </h2>
-
+      <!-- Budget inline panel -->
+      <div id="budget-panel" class="inline-panel" hidden>
         <form id="budget-form" novalidate autocomplete="off">
           <div class="form-group">
             <input type="number" id="budget-input" name="budget" step="0.01" min="0"
-              placeholder="Tu presupuesto..." aria-label="Presupuesto" />
+              placeholder="Ingresa tu presupuesto..." aria-label="Presupuesto" />
             <button type="submit" class="btn btn-primary">Fijar</button>
           </div>
         </form>
-
-        <div class="budget-display">
-          <div id="total"><span>Total</span><b>$0.00</b></div>
-          <div class="progress-bar-wrap">
-            <div class="progress-bar" id="budget-progress"></div>
-          </div>
-          <div id="budget-summary" aria-live="polite">Fija un presupuesto para seguir tus gastos.</div>
-        </div>
       </div>
 
-      <!-- Guardar Compra -->
-      <div class="card">
-        <h2>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="display:inline;vertical-align:-2px;margin-right:4px">
-            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
-            <polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
-          </svg>
-          Guardar Compra
-        </h2>
-        <form id="save-purchase-form">
-          <input type="text" name="purchase_name" placeholder="Ej: Compra semanal" aria-label="Nombre de la compra" required />
-          <button type="submit" class="btn btn-primary btn-block">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
-            Guardar y Limpiar
-          </button>
+      <!-- List actions -->
+      <div class="list-actions">
+        <button id="reset-btn" type="button" aria-label="Limpiar lista">
+          <i class="fa-solid fa-trash"></i>
+          Limpiar todo
+        </button>
+        <button id="save-toggle-btn" type="button" class="btn btn-sm btn-primary">
+          <i class="fa-solid fa-floppy-disk"></i>
+          Guardar compra
+        </button>
+      </div>
+
+      <!-- Save purchase inline panel -->
+      <div id="save-panel" class="inline-panel" hidden>
+        <form id="save-purchase-form" autocomplete="off">
+          <div class="form-group">
+            <input type="text" name="purchase_name" placeholder="Nombre de la compra (ej: Semanal)" aria-label="Nombre de la compra" required />
+            <button type="submit" class="btn btn-primary">
+              <i class="fa-solid fa-check"></i>
+              Guardar
+            </button>
+          </div>
         </form>
       </div>
 
-      <!-- Última compra -->
-      <div id="latest-purchase-container"></div>
-
-    </aside>
+    </section>
   </main>
 
   <script>
@@ -136,53 +94,53 @@
 
       const fetchData = async () => {
         try {
-          const response = await fetch(`${API_BASE}/data`);
-          if (!response.ok) throw new Error('Network error');
-          const data = await response.json();
-          render(data);
-        } catch (error) {
-          console.error('Error fetching data:', error);
+          const res = await fetch(`${API_BASE}/data`);
+          if (!res.ok) throw new Error();
+          render(await res.json());
+        } catch {
           document.getElementById('item-list').innerHTML =
-            '<li class="empty-list-message"><span class="empty-icon">⚠️</span>Error al cargar. Inténtalo de nuevo.</li>';
+            '<li class="empty-list-message"><i class="fa-solid fa-triangle-exclamation empty-icon"></i>Error al cargar.</li>';
         }
       };
 
       const postData = async (url, body) => {
         try {
-          const response = await fetch(url, {
+          const res = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body),
           });
-          if (!response.ok) throw new Error('Network error');
-          return await response.json();
-        } catch (error) {
-          console.error(`Error posting to ${url}:`, error);
+          if (!res.ok) throw new Error();
+          return await res.json();
+        } catch {
           return null;
         }
       };
 
       const render = (data) => {
         renderItems(data.items);
-        renderTotals(data.total, data.budget, data.diff);
-        renderLatestPurchase(data.latest_purchase);
+        renderBudgetStrip(data.total, data.budget, data.diff);
       };
 
-      const ICON_UNCHECKED = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/></svg>`;
-      const ICON_CHECKED   = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`;
-      const ICON_DELETE    = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
-      const ICON_SAVE      = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>`;
+      const ICON_UNCHECKED = `<i class="fa-regular fa-circle"></i>`;
+      const ICON_CHECKED   = `<i class="fa-solid fa-check"></i>`;
+      const ICON_DELETE    = `<i class="fa-solid fa-xmark"></i>`;
+      const ICON_SAVE      = `<i class="fa-solid fa-floppy-disk"></i>`;
+      const ICON_EDIT      = `<i class="fa-solid fa-pen"></i>`;
 
+      // ── Items ──
       const renderItems = (items) => {
-        const itemList = document.getElementById('item-list');
-        const countEl  = document.getElementById('item-count');
+        const list    = document.getElementById('item-list');
+        const countEl = document.getElementById('item-count');
         if (countEl) countEl.textContent = items ? items.length : 0;
 
-        itemList.innerHTML = '';
+        items = [...items].sort((a, b) => a.checked - b.checked);
+
+        list.innerHTML = '';
         if (!items || items.length === 0) {
-          itemList.innerHTML = `
+          list.innerHTML = `
             <li class="empty-list-message">
-              <span class="empty-icon">🛒</span>
+              <i class="fa-solid fa-cart-shopping empty-icon"></i>
               Tu lista está vacía. ¡Añade productos!
             </li>`;
           return;
@@ -190,35 +148,46 @@
 
         items.forEach(item => {
           const li = document.createElement('li');
-          li.className = `item-row${item.checked ? ' is-checked' : ''}`;
+          const hasSavedPrice = item.checked && item.price > 0;
+          li.className = `item-row${item.checked ? ' is-checked' : ''}${hasSavedPrice ? ' is-compact' : ''}`;
           li.dataset.itemId = item.id;
 
-          let priceHTML = '';
+          let checkedExtra = '';
           if (item.checked) {
-            priceHTML = `
-              <form class="set-price-form" autocomplete="off" novalidate>
-                <input type="number" step="1" min="1" name="quantity" value="${item.quantity || 1}" aria-label="Cantidad" />
-                <span>×</span>
-                <input type="number" step="0.01" min="0" name="price" value="${item.price || ''}" placeholder="0.00" aria-label="Precio" />
-                <span>$/u</span>
-                <button type="submit" title="Guardar precio">${ICON_SAVE}</button>
-              </form>`;
+            if (hasSavedPrice) {
+              const subtotal = (item.price * item.quantity).toFixed(2);
+              const qtyLabel = item.quantity > 1 ? `${item.quantity} × ` : '';
+              checkedExtra = `
+                <span class="item-subtotal" data-qty="${item.quantity}" data-price="${item.price}">${qtyLabel}$${subtotal}</span>
+                <button class="edit-price-btn" title="Editar precio">${ICON_EDIT}</button>`;
+            } else {
+              checkedExtra = `
+                <form class="set-price-form" autocomplete="off" novalidate>
+                  <input type="number" step="1" min="1" name="quantity" value="${item.quantity || 1}" aria-label="Cantidad" />
+                  <span>×</span>
+                  <input type="number" step="0.01" min="0" name="price" value="${item.price || ''}" placeholder="0.00" aria-label="Precio" />
+                  <span>$/u</span>
+                  <button type="submit" title="Guardar precio">${ICON_SAVE}</button>
+                </form>`;
+            }
           }
 
           li.innerHTML = `
-            <button class="check-btn${item.checked ? ' checked' : ''}" aria-pressed="${item.checked}" title="${item.checked ? 'Desmarcar' : 'Marcar como comprado'}">
+            <button class="check-btn${item.checked ? ' checked' : ''}" aria-pressed="${item.checked}"
+              title="${item.checked ? 'Desmarcar' : 'Marcar como comprado'}">
               ${item.checked ? ICON_CHECKED : ICON_UNCHECKED}
             </button>
             <span class="item-name${item.checked ? ' comprado' : ''}">${item.name}</span>
-            ${priceHTML}
+            ${checkedExtra}
             <button class="delete-btn" aria-label="Eliminar ${item.name}" title="Eliminar">${ICON_DELETE}</button>
           `;
-          itemList.appendChild(li);
+          list.appendChild(li);
         });
       };
 
-      const renderTotals = (total, budget, diff) => {
-        document.getElementById('total').innerHTML = `<span>Total</span><b>$${total.toFixed(2)}</b>`;
+      // ── Budget strip ──
+      const renderBudgetStrip = (total, budget, diff) => {
+        document.getElementById('budget-strip-total').textContent = `$${total.toFixed(2)}`;
 
         const budgetInput = document.getElementById('budget-input');
         if (document.activeElement !== budgetInput) {
@@ -226,56 +195,43 @@
         }
 
         const bar = document.getElementById('budget-progress');
-        if (bar) {
-          if (budget > 0) {
-            const pct = Math.min((total / budget) * 100, 100);
-            bar.style.width = `${pct}%`;
-            bar.className = 'progress-bar' + (pct >= 100 ? ' over-budget' : pct >= 80 ? ' near-budget' : '');
-          } else {
-            bar.style.width = '0%';
-            bar.className = 'progress-bar';
-          }
-        }
+        const summary = document.getElementById('budget-strip-summary');
 
-        const summary = document.getElementById('budget-summary');
         if (budget > 0) {
+          const pct = Math.min((total / budget) * 100, 100);
+          bar.style.width = `${pct}%`;
+          bar.className = 'progress-bar' + (pct >= 100 ? ' over-budget' : pct >= 80 ? ' near-budget' : '');
+
           if (diff >= 0) {
-            summary.innerHTML = `Te quedan <strong style="color:var(--success)">$${diff.toFixed(2)}</strong> del presupuesto.`;
+            summary.innerHTML = `<span class="strip-ok">Restan $${diff.toFixed(2)}</span>`;
           } else {
-            summary.innerHTML = `Excediste el presupuesto por <strong style="color:var(--danger)">$${(-diff).toFixed(2)}</strong>.`;
+            summary.innerHTML = `<span class="strip-over">+$${(-diff).toFixed(2)}</span>`;
           }
         } else {
-          summary.textContent = 'Fija un presupuesto para seguir tus gastos.';
+          bar.style.width = '0%';
+          bar.className = 'progress-bar';
+          summary.innerHTML = `<span class="strip-hint">Sin presupuesto</span>`;
         }
       };
 
-      const renderLatestPurchase = (purchase) => {
-        const container = document.getElementById('latest-purchase-container');
-        if (!purchase) {
-          container.innerHTML = '';
-          return;
-        }
-        const diff    = purchase.budget - purchase.total;
-        const isGood  = diff >= 0;
-        const diffAbs = Math.abs(diff).toFixed(2);
+      // ── Panel toggles ──
+      const budgetPanel  = document.getElementById('budget-panel');
+      const savePanel    = document.getElementById('save-panel');
+      const budgetToggle = document.getElementById('budget-toggle-btn');
+      const saveToggle   = document.getElementById('save-toggle-btn');
 
-        container.innerHTML = `
-          <div class="card">
-            <div class="section-label">Última compra guardada</div>
-            <div class="latest-purchase-card">
-              <p class="latest-purchase-name">${purchase.name}</p>
-              <div class="latest-purchase-meta">
-                <span>Total: <strong>$${purchase.total.toFixed(2)}</strong></span>
-                <span>Presup: $${purchase.budget.toFixed(2)}</span>
-              </div>
-              <span class="budget-diff ${isGood ? 'surplus' : 'deficit'}">
-                ${isGood ? `↑ Sobrante $${diffAbs}` : `↓ Déficit $${diffAbs}`}
-              </span>
-            </div>
-          </div>`;
-      };
+      function togglePanel(panel, btn, otherPanel) {
+        const isOpen = !panel.hidden;
+        if (otherPanel) otherPanel.hidden = true;
+        panel.hidden = isOpen;
+        if (btn) btn.setAttribute('aria-expanded', String(!isOpen));
+        if (!isOpen) panel.querySelector('input')?.focus();
+      }
 
-      // ===== EVENT LISTENERS =====
+      budgetToggle.addEventListener('click', () => togglePanel(budgetPanel, budgetToggle, savePanel));
+      saveToggle.addEventListener('click',   () => togglePanel(savePanel, saveToggle, budgetPanel));
+
+      // ── Add item ──
       document.getElementById('add-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const input = e.target.elements.name;
@@ -287,6 +243,7 @@
         }
       });
 
+      // ── Reset ──
       document.getElementById('reset-btn').addEventListener('click', async () => {
         if (confirm('¿Limpiar toda la lista y el presupuesto?')) {
           await postData(`${API_BASE}/reset`, {});
@@ -294,6 +251,7 @@
         }
       });
 
+      // ── Item list clicks ──
       document.getElementById('item-list').addEventListener('click', async (e) => {
         const btn = e.target.closest('button');
         if (!btn) return;
@@ -307,9 +265,29 @@
         } else if (btn.classList.contains('delete-btn')) {
           await postData(`${API_BASE}/delete/${id}`, {});
           fetchData();
+        } else if (btn.classList.contains('edit-price-btn')) {
+          const subtotal = li.querySelector('.item-subtotal');
+          const qty      = subtotal.dataset.qty   || '1';
+          const price    = subtotal.dataset.price || '';
+          subtotal.remove();
+          btn.remove();
+          li.classList.remove('is-compact');
+          const form = document.createElement('form');
+          form.className  = 'set-price-form';
+          form.noValidate = true;
+          form.innerHTML  = `
+            <input type="number" step="1" min="1" name="quantity" value="${qty}" aria-label="Cantidad" />
+            <span>×</span>
+            <input type="number" step="0.01" min="0" name="price" value="${price}" placeholder="0.00" aria-label="Precio" />
+            <span>$/u</span>
+            <button type="submit" title="Guardar precio">${ICON_SAVE}</button>
+          `;
+          li.querySelector('.delete-btn').before(form);
+          form.querySelector('input[name="price"]').focus();
         }
       });
 
+      // ── Price form submit ──
       document.getElementById('item-list').addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!e.target.classList.contains('set-price-form')) return;
@@ -321,22 +299,23 @@
         fetchData();
       });
 
+      // ── Budget form ──
       document.getElementById('budget-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const budget = e.target.elements.budget.value;
         await postData(`${API_BASE}/set_budget`, { budget });
+        budgetPanel.hidden = true;
+        budgetToggle.setAttribute('aria-expanded', 'false');
         fetchData();
       });
 
+      // ── Save purchase ──
       document.getElementById('save-purchase-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const purchase_name = e.target.elements.purchase_name.value.trim();
-        if (!purchase_name) {
-          alert('Por favor, dale un nombre a tu compra.');
-          return;
-        }
+        if (!purchase_name) return;
         const data = await postData(`${API_BASE}/save_purchase`, { purchase_name });
-        if (data && data.redirect_url) {
+        if (data?.redirect_url) {
           window.location.href = data.redirect_url;
         } else {
           fetchData();

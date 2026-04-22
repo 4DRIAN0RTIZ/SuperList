@@ -1,0 +1,19 @@
+{% macro icon(name, style='solid', extra='') %}
+<i class="fa-{{ style }} fa-{{ name }}{% if extra %} {{ extra }}{% endif %}"></i>
+{%- endmacro %}
+
+{% macro badge(text, variant) %}
+<span class="badge badge-{{ variant }}">{{ text }}</span>
+{%- endmacro %}
+
+{% macro budget_badge(diff) %}
+  {% if diff >= 0 %}
+    {{ badge(icon('arrow-trend-up') ~ ' Sobrante $' ~ '%.2f'|format(diff), 'success') }}
+  {% else %}
+    {{ badge(icon('arrow-trend-down') ~ ' Déficit $' ~ '%.2f'|format(-diff), 'danger') }}
+  {% endif %}
+{%- endmacro %}
+
+{% macro purchase_stat(label, value) %}
+<span class="purchase-stat">{{ label }}: <strong>${{ '%.2f'|format(value) }}</strong></span>
+{%- endmacro %}

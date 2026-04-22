@@ -1,13 +1,17 @@
-from flask import render_template, request, redirect, url_for, flash, jsonify
-from . import app, db
-from .models import Item, Budget, Purchase, PurchaseItem
+from flask import render_template, request, url_for, jsonify
 from datetime import datetime
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+from ...extensions import db
+from ...models import Item, Budget, Purchase, PurchaseItem
+from . import bp
 
-@app.route("/data")
+
+@bp.route("/")
+def index():
+    return render_template("index.html", active_page='index')
+
+
+@bp.route("/data")
 def get_data():
     items = Item.query.order_by(Item.id).all()
     total = sum(item.price * item.quantity for item in items if item.checked)
@@ -20,7 +24,7 @@ def get_data():
         db.session.commit()
 
     diff = budget.value - total
-    
+
     return jsonify({
         "items": [item.to_dict() for item in items],
         "total": total,
@@ -29,7 +33,8 @@ def get_data():
         "latest_purchase": latest_purchase.to_dict() if latest_purchase else None
     })
 
-@app.route("/add", methods=["POST"])
+
+@bp.route("/add", methods=["POST"])
 def add():
     data = request.get_json()
     name = data.get("name", "").strip()
@@ -40,7 +45,8 @@ def add():
         return jsonify(new_item.to_dict())
     return jsonify({"error": "Name is required"}), 400
 
-@app.route("/check/<int:item_id>", methods=["POST"])
+
+@bp.route("/check/<int:item_id>", methods=["POST"])
 def check(item_id):
     item = Item.query.get_or_404(item_id)
     item.checked = not item.checked
@@ -50,7 +56,8 @@ def check(item_id):
     db.session.commit()
     return jsonify(item.to_dict())
 
-@app.route("/set_price/<int:item_id>", methods=["POST"])
+
+@bp.route("/set_price/<int:item_id>", methods=["POST"])
 def set_price(item_id):
     item = Item.query.get_or_404(item_id)
     data = request.get_json()
@@ -64,20 +71,23 @@ def set_price(item_id):
     except (ValueError, TypeError):
         return jsonify({"error": "Invalid price or quantity"}), 400
 
-@app.route("/delete/<int:item_id>", methods=["POST"])
+
+@bp.route("/delete/<int:item_id>", methods=["POST"])
 def delete(item_id):
     item = Item.query.get_or_404(item_id)
     db.session.delete(item)
     db.session.commit()
     return jsonify({"success": True})
 
-@app.route("/reset", methods=["POST"])
+
+@bp.route("/reset", methods=["POST"])
 def reset():
     Item.query.delete()
     db.session.commit()
     return jsonify({"success": True})
 
-@app.route("/set_budget", methods=["POST"])
+
+@bp.route("/set_budget", methods=["POST"])
 def set_budget():
     budget = Budget.query.first()
     data = request.get_json()
@@ -89,7 +99,8 @@ def set_budget():
     except (ValueError, TypeError):
         return jsonify({"error": "Invalid budget value"}), 400
 
-@app.route("/save_purchase", methods=["POST"])
+
+@bp.route("/save_purchase", methods=["POST"])
 def save_purchase():
     data = request.get_json()
     name = data.get("purchase_name", "").strip()
@@ -108,12 +119,23 @@ def save_purchase():
         p_item = PurchaseItem(name=item.name, price=item.price, quantity=item.quantity, purchase=new_purchase)
         db.session.add(p_item)
         db.session.delete(item)
-    
+
     db.session.add(new_purchase)
     db.session.commit()
-    return jsonify({"success": True, "redirect_url": url_for("history")})
+    return jsonify({"success": True, "redirect_url": url_for("main.history")})
 
-@app.route("/history")
+
+@bp.route("/comparador")
+def comparador():
+    return render_template("comparador.html", active_page='comparador', page_title='Comparador — SuperLista')
+
+
+@bp.route("/history")
 def history():
     purchases = Purchase.query.order_by(Purchase.timestamp.desc()).all()
-    return render_template("history.html", compras=purchases)
+    return render_template(
+        "history.html",
+        compras=purchases,
+        active_page='history',
+        page_title='Historial — SuperLista'
+    )

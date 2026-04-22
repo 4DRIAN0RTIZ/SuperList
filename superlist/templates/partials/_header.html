@@ -1,0 +1,80 @@
+<header class="app-header">
+  <div class="header-inner">
+    <button class="sidebar-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="app-sidebar">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <a href="{{ url_for('main.index') }}" class="header-brand">
+      <i class="fa-solid fa-cart-shopping"></i>
+      SuperLista
+    </a>
+  </div>
+</header>
+
+<!-- Sidebar -->
+<aside id="app-sidebar" class="app-sidebar" aria-hidden="true">
+  <div class="sidebar-header">
+    <span class="sidebar-title">
+      <i class="fa-solid fa-cart-shopping"></i>
+      SuperLista
+    </span>
+    <button class="sidebar-close" aria-label="Cerrar menú">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <nav class="sidebar-nav" aria-label="Navegación principal">
+    <a href="{{ url_for('main.index') }}"
+       class="sidebar-link{% if active_page == 'index' %} is-active{% endif %}">
+      <i class="fa-solid fa-list"></i>
+      Lista de Compras
+    </a>
+    <a href="{{ url_for('main.comparador') }}"
+       class="sidebar-link{% if active_page == 'comparador' %} is-active{% endif %}">
+      <i class="fa-solid fa-scale-balanced"></i>
+      Comparador de Precios
+    </a>
+    <a href="{{ url_for('main.history') }}"
+       class="sidebar-link{% if active_page == 'history' %} is-active{% endif %}">
+      <i class="fa-solid fa-clock-rotate-left"></i>
+      Historial
+    </a>
+  </nav>
+</aside>
+
+<!-- Backdrop -->
+<div class="sidebar-backdrop" aria-hidden="true"></div>
+
+<script>
+  (() => {
+    const sidebar   = document.getElementById('app-sidebar');
+    const backdrop  = document.querySelector('.sidebar-backdrop');
+    const toggleBtn = document.querySelector('.sidebar-toggle');
+    const closeBtn  = document.querySelector('.sidebar-close');
+
+    function open() {
+      sidebar.classList.add('is-open');
+      backdrop.classList.add('is-visible');
+      sidebar.setAttribute('aria-hidden', 'false');
+      toggleBtn.setAttribute('aria-expanded', 'true');
+      closeBtn.focus();
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      sidebar.classList.remove('is-open');
+      backdrop.classList.remove('is-visible');
+      sidebar.setAttribute('aria-hidden', 'true');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      toggleBtn.focus();
+      document.body.style.overflow = '';
+    }
+
+    toggleBtn.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+    backdrop.addEventListener('click', close);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && sidebar.classList.contains('is-open')) close();
+    });
+  })();
+</script>
