@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+### Design
+
+- Apply the receipt theme to the app UI ([03e1db3](https://github.com/4drian0rtiz/SuperList/commit/03e1db3e43d23e3763b441f71b8db9c3512f54d9))
+- Rework landing as a supermarket receipt ([69b67ed](https://github.com/4drian0rtiz/SuperList/commit/69b67edb658611826fe47be7998ff2f51115f415))
+
 ## [0.1.0] - 2026-08-28
 
 ### Bug Fixes
