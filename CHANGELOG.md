@@ -2,7 +2,11 @@
 
 All notable changes to this project are documented here.
 
-## [Unreleased]
+## [0.1.0] - 2026-08-28
+
+### Bug Fixes
+
+- Set initial_tag so the first release bumps to v0.1.0 ([f19bf3a](https://github.com/4drian0rtiz/SuperList/commit/f19bf3a82a3a636c15dabede5b92d1f8d6ffa5da))
 
 ### CI
 
