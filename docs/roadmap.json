@@ -1,0 +1,144 @@
+{
+  "labels": {
+    "done": {
+      "en": "✓ done",
+      "es": "✓ hecho"
+    },
+    "planned": {
+      "en": "planned",
+      "es": "planeado"
+    },
+    "idea": {
+      "en": "idea",
+      "es": "idea"
+    },
+    "working": {
+      "en": "in progress",
+      "es": "en progreso"
+    }
+  },
+  "sections": [
+    {
+      "title": {
+        "en": "Done",
+        "es": "Hecho"
+      },
+      "items": [
+        {
+          "status": "done",
+          "text": {
+            "en": "Restructure into a Flask package with blueprints",
+            "es": "Reestructuración en paquete Flask con blueprints"
+          }
+        },
+        {
+          "status": "done",
+          "text": {
+            "en": "Shopping list with per-item price and quantity",
+            "es": "Lista de compras con precio y cantidad por producto"
+          }
+        },
+        {
+          "status": "done",
+          "text": {
+            "en": "Budget with progress bar and remaining/over indicator",
+            "es": "Presupuesto con barra de progreso e indicador de restante/exceso"
+          }
+        },
+        {
+          "status": "done",
+          "text": {
+            "en": "Save purchase and browse purchase history",
+            "es": "Guardar compra y consultar el historial"
+          }
+        },
+        {
+          "status": "done",
+          "text": {
+            "en": "Unit-price comparator with '12 * 200' style expressions",
+            "es": "Comparador de precio por unidad con expresiones tipo '12 * 200'"
+          }
+        },
+        {
+          "status": "done",
+          "text": {
+            "en": "SQLite hardening: Flask-Migrate/Alembic and connection pragmas",
+            "es": "Endurecimiento de SQLite: Flask-Migrate/Alembic y pragmas de conexión"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Planned",
+        "es": "Planeado"
+      },
+      "items": [
+        {
+          "status": "working",
+          "text": {
+            "en": "pytest coverage for routes and models",
+            "es": "Cobertura pytest para rutas y modelos"
+          }
+        },
+        {
+          "status": "planned",
+          "text": {
+            "en": "Product categories and per-category totals",
+            "es": "Categorías de productos y totales por categoría"
+          }
+        },
+        {
+          "status": "planned",
+          "text": {
+            "en": "Multi-user accounts with private lists",
+            "es": "Cuentas multi-usuario con listas privadas"
+          }
+        },
+        {
+          "status": "planned",
+          "text": {
+            "en": "Persist comparator sessions in history",
+            "es": "Guardar las comparaciones en el historial"
+          }
+        },
+        {
+          "status": "planned",
+          "text": {
+            "en": "Deploy guide (gunicorn + reverse proxy)",
+            "es": "Guía de despliegue (gunicorn + proxy inverso)"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Ideas",
+        "es": "Ideas"
+      },
+      "items": [
+        {
+          "status": "idea",
+          "text": {
+            "en": "Installable PWA with offline support",
+            "es": "PWA instalable con soporte offline"
+          }
+        },
+        {
+          "status": "idea",
+          "text": {
+            "en": "Shared lists between devices",
+            "es": "Listas compartidas entre dispositivos"
+          }
+        },
+        {
+          "status": "idea",
+          "text": {
+            "en": "Barcode scan to add products",
+            "es": "Escaneo de código de barras para agregar productos"
+          }
+        }
+      ]
+    }
+  ]
+}
