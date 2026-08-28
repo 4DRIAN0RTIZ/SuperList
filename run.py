@@ -1,6 +1,12 @@
+import os
+
 from superlist import create_app
 
 app = create_app()
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5002)
+    app.run(
+        host=os.environ.get("HOST", "0.0.0.0"),
+        port=int(os.environ.get("PORT", "5002")),
+        debug=app.config.get("DEBUG", False),
+    )
