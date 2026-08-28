@@ -20,6 +20,11 @@ trim = true
 render_always = true
 footer = ""
 
+[bump]
+# First version when the repository has no tags yet. Needs the `v` prefix so
+# the bumped version matches `tag_pattern` below.
+initial_tag = "v0.1.0"
+
 [git]
 conventional_commits = true
 filter_unconventional = true
