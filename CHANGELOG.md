@@ -4,6 +4,10 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+### Features
+
+- Flask-migrate, env-based config and sqlite hardening ([3237130](https://github.com/4drian0rtiz/SuperList/commit/3237130d651d6f35de953d6eb8780152f3b59aab))
+
 ### Design
 
 - Apply the receipt theme to the app UI ([03e1db3](https://github.com/4drian0rtiz/SuperList/commit/03e1db3e43d23e3763b441f71b8db9c3512f54d9))
