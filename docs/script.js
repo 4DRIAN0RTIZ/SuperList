@@ -281,3 +281,27 @@ function renderChangelogEmpty(container) {
 	const message = t['changelog-empty-msg'] || 'No changelog entries yet — check back after the next release.';
 	container.innerHTML = `<p class="changelog-empty">${message}</p>`;
 }
+
+/* ── Receipt chrome: live clock + back-to-top ─────────────────── */
+(() => {
+	const pad = n => String(n).padStart(2, '0');
+
+	function tick() {
+		const d = new Date();
+		const date = `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`;
+		const time = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+		document.querySelectorAll('[data-clock-date]').forEach(el => { el.textContent = date; });
+		document.querySelectorAll('[data-clock-time]').forEach(el => { el.textContent = time; });
+	}
+
+	tick();
+	setInterval(tick, 30000);
+
+	const totop = document.getElementById('totop');
+	if (totop) {
+		const sync = () => totop.classList.toggle('is-visible', window.scrollY > 600);
+		window.addEventListener('scroll', sync, { passive: true });
+		sync();
+		totop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+	}
+})();
