@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here.
 
+## [0.1.1] - 2026-09-19
+
+### Chore
+
+- Add roadmap issue template ([b517061](https://github.com/4drian0rtiz/SuperList/commit/b517061a7e7d9e771ba344c544de11b0c5ed27ee))
+
 ## [0.1.0] - 2026-08-28
 
 ### Bug Fixes
