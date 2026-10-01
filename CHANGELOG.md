@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+### Style
+
+- Force light scheme and bone background ([8ee5f0f](https://github.com/4drian0rtiz/SuperList/commit/8ee5f0f2604887d0b927059b2d50a28b3959a0cc))
+
+### Merge
+
+- Sync main into dev ([65eebbb](https://github.com/4drian0rtiz/SuperList/commit/65eebbbf6a33985e69173f08f90b99ac5abf7e64))
+
 ## [0.2.0] - 2026-10-01
 
 ### Features
