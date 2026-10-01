@@ -1,11 +1,13 @@
 /* ═══════════════════════════════════════════════════════════════
    SuperLista — tema "ticket de super" (mismo lenguaje que la landing)
-   Papel monoespaciado sobre un mostrador oscuro. Dos tintas: ink + sello.
+   Papel monoespaciado sobre un mostrador hueso. Dos tintas: ink + sello.
    ═══════════════════════════════════════════════════════════════ */
 
 /* ==================== VARIABLES ==================== */
 :root {
-  --counter:  #1c1720;
+  color-scheme: only light;
+
+  --counter:  #ece5d1;
   --paper:    #f6f1e3;
   --paper-2:  #ece5d1;
   --paper-3:  #d9d0b8;
@@ -38,11 +40,6 @@ body {
   color: var(--ink);
   min-height: 100vh;
   background-color: var(--counter);
-  background-image:
-    radial-gradient(130% 90% at 50% -20%, #2b2331 0%, #1c1720 62%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-  background-blend-mode: overlay;
-  background-attachment: fixed;
 }
 
 ::selection { background: var(--stamp); color: var(--paper); }
@@ -85,7 +82,7 @@ h2 .fa-solid, h2 .fa-regular { font-size: 0.8rem; vertical-align: -1px; }
   align-items: center;
   gap: 0.5rem;
   text-decoration: none;
-  color: var(--paper);
+  color: var(--ink);
   font-family: var(--type);
   font-weight: 400;
   font-size: 1.15rem;
@@ -101,7 +98,7 @@ h2 .fa-solid, h2 .fa-regular { font-size: 0.8rem; vertical-align: -1px; }
   height: 34px;
   border: 1.5px solid var(--ink-3);
   background: transparent;
-  color: var(--paper-3);
+  color: var(--ink-2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -109,7 +106,7 @@ h2 .fa-solid, h2 .fa-regular { font-size: 0.8rem; vertical-align: -1px; }
   font-size: 0.85rem;
   transition: all var(--transition);
 }
-.sidebar-toggle:hover { background: var(--paper); border-color: var(--paper); color: var(--ink); }
+.sidebar-toggle:hover { background: var(--ink); border-color: var(--ink); color: var(--paper); }
 
 /* ==================== SIDEBAR ==================== */
 .app-sidebar {
