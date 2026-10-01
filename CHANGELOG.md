@@ -2,16 +2,11 @@
 
 All notable changes to this project are documented here.
 
-## [Unreleased]
+## [0.1.1] - 2026-09-19
 
-### Features
+### Chore
 
-- Flask-migrate, env-based config and sqlite hardening ([3237130](https://github.com/4drian0rtiz/SuperList/commit/3237130d651d6f35de953d6eb8780152f3b59aab))
-
-### Design
-
-- Apply the receipt theme to the app UI ([03e1db3](https://github.com/4drian0rtiz/SuperList/commit/03e1db3e43d23e3763b441f71b8db9c3512f54d9))
-- Rework landing as a supermarket receipt ([69b67ed](https://github.com/4drian0rtiz/SuperList/commit/69b67edb658611826fe47be7998ff2f51115f415))
+- Add roadmap issue template ([b517061](https://github.com/4drian0rtiz/SuperList/commit/b517061a7e7d9e771ba344c544de11b0c5ed27ee))
 
 ## [0.1.0] - 2026-08-28
 
