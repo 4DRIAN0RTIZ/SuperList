@@ -15,13 +15,8 @@ def index():
 def get_data():
     items = Item.query.order_by(Item.id).all()
     total = sum(item.price * item.quantity for item in items if item.checked)
-    budget = Budget.query.first()
+    budget = Budget.current()
     latest_purchase = Purchase.query.order_by(Purchase.timestamp.desc()).first()
-
-    if budget is None:
-        budget = Budget(value=0.0)
-        db.session.add(budget)
-        db.session.commit()
 
     diff = budget.value - total
 
@@ -89,7 +84,7 @@ def reset():
 
 @bp.route("/set_budget", methods=["POST"])
 def set_budget():
-    budget = Budget.query.first()
+    budget = Budget.current()
     data = request.get_json()
     try:
         new_value = float(data.get("budget", "0").strip())
@@ -112,7 +107,7 @@ def save_purchase():
         return jsonify({"error": "No items selected to save."}), 400
 
     total = sum(item.price * item.quantity for item in items)
-    budget = Budget.query.first().value
+    budget = Budget.current().value
 
     new_purchase = Purchase(name=name, total=total, budget=budget)
     for item in items:

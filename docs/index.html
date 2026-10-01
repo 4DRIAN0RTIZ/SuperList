@@ -4,475 +4,389 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title data-i18n="page-title">SuperLista — Lista de compras con presupuesto</title>
+	<title data-i18n="page-title">SuperLista — Ticket</title>
 	<meta name="description" data-i18n="page-description"
-		content="App web para armar tu lista de compras, ponerle precio a cada producto y no pasarte del presupuesto. Incluye historial de compras y comparador de precio por unidad." />
+		content="Lista de compras con presupuesto real. Web app minimalista: precio y cantidad por producto, historial de compras y comparador de precio por unidad." />
 
-	<!-- Open Graph / Social Media -->
 	<meta property="og:title" content="SuperLista — Lista de compras con presupuesto" />
 	<meta property="og:description"
-		content="App web minimalista para armar tu lista, ponerle precio y cantidad a cada producto y no pasarte del presupuesto." />
+		content="La landing es un ticket de super. Precio y cantidad por producto, presupuesto con barra, historial y comparador de precio por unidad." />
 	<meta property="og:url" content="https://github.com/4drian0rtiz/SuperList" />
 	<meta property="og:type" content="website" />
 	<meta property="og:locale" content="es_ES" />
 
 	<link rel="icon" type="image/svg+xml"
-		href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a371f7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='21' r='1'/%3E%3Ccircle cx='20' cy='21' r='1'/%3E%3Cpath d='M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6'/%3E%3C/svg%3E" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+		href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 3h2l.4 2M7 13h10l4-8H5.4M7 13 5.4 5M7 13l-2.3 4.6a1 1 0 0 0 .9 1.4H17'/%3E%3Ccircle cx='9' cy='20' r='1'/%3E%3Ccircle cx='16' cy='20' r='1'/%3E%3C/svg%3E" />
+
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Libre+Barcode+39+Text&family=Special+Elite&display=swap"
+		rel="stylesheet" />
 	<link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
 
-	<!-- ══════════════════════════════ NAV ══════════════════════════════ -->
-	<nav>
-		<a href="#" class="nav-brand">{ Super<span>Lista</span> }</a>
-		<ul class="nav-links">
-			<li><a href="#instalacion" data-i18n="nav-install">Instalación</a></li>
-			<li><a href="#uso" data-i18n="nav-usage">Uso</a></li>
-			<li><a href="#comparador" data-i18n="nav-comparador">Comparador</a></li>
-			<li><a href="#configuracion" data-i18n="nav-config">Configuración</a></li>
-			<li><a href="#roadmap" data-i18n="nav-roadmap">Roadmap</a></li>
-			<li><a href="#changelog" data-i18n="nav-changelog">Changelog</a></li>
-			<li><button id="lang-toggle" class="nav-lang">EN</button></li>
-			<li>
-				<a href="https://github.com/4drian0rtiz/SuperList" target="_blank" rel="noopener" class="nav-gh">
-					<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-						<path
-							d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12" />
-					</svg>
-					<span data-i18n="nav-github">GitHub</span>
-				</a>
-			</li>
-		</ul>
-	</nav>
+	<main class="paper">
+		<div class="sheet" id="sheet">
 
-	<!-- ══════════════════════════════ HERO ══════════════════════════════ -->
-	<div class="hero">
-		<div class="hero-badge" id="hero-badge-release"></div>
+			<!-- ═══════════ ENCABEZADO DEL TICKET ═══════════ -->
+			<header class="head">
+				<h1 class="store">SUPERLISTA</h1>
+				<p class="store-sub" data-i18n="receipt-sub">· LISTA DE COMPRAS CON PRESUPUESTO ·</p>
 
-		<h1>
-			<span data-i18n="hero-title-line1">Tu lista de compras,</span><br />
-			<span class="accent" data-i18n="hero-title-accent">con presupuesto</span><br />
-			<span data-i18n="hero-title-line3">de verdad.</span>
-		</h1>
+				<div class="rule rule--double"></div>
 
-		<p class="hero-sub" data-i18n="hero-subtitle">
-			SuperLista es una app web minimalista para armar tu lista, ponerle precio y cantidad a cada producto
-			y saber en todo momento cuánto llevas y cuánto te queda.
-		</p>
+				<dl class="meta">
+					<div><dt>RAZ&Oacute;N SOCIAL</dt><dd>github.com/4drian0rtiz/SuperList</dd></div>
+					<div><dt data-i18n="receipt-lane-label">CAJA</dt><dd data-i18n="receipt-lane">01 &nbsp;·&nbsp; CAJERO: T&Uacute;</dd></div>
+					<div><dt data-i18n="receipt-date-label">FECHA</dt><dd><span data-clock-date>--/--/----</span> &nbsp; <span data-clock-time>--:--</span></dd></div>
+					<div><dt>REL</dt><dd><span id="hero-badge-release">v0.1.0</span> &nbsp;·&nbsp; SQLITE</dd></div>
+				</dl>
 
-		<div class="hero-actions">
-			<a href="#instalacion" class="btn btn-primary">
-				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-					<polyline points="8 17 12 21 16 17" />
-					<line x1="12" y1="12" x2="12" y2="21" />
-					<path d="M20.88 18.09A5 5 0 0018 9h-1.26A8 8 0 103 16.29" />
-				</svg>
-				<span data-i18n="hero-btn-install">Empezar</span>
-			</a>
-			<a href="https://github.com/4drian0rtiz/SuperList" target="_blank" rel="noopener" class="btn btn-secondary">
-				<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-					<path
-						d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12" />
-				</svg>
-				<span data-i18n="hero-btn-github">Ver en GitHub</span>
-			</a>
-		</div>
+				<nav class="index" aria-label="Secciones">
+					<a href="#preparacion" data-i18n="nav-install">Instalaci&oacute;n</a>
+					<a href="#empleo" data-i18n="nav-usage">Uso</a>
+					<a href="#comparador" data-i18n="nav-comparador">Comparador</a>
+					<a href="#config" data-i18n="nav-config">Config</a>
+					<a href="#pendientes" data-i18n="nav-roadmap">Roadmap</a>
+					<a href="#historial" data-i18n="nav-changelog">Changelog</a>
+					<a href="https://github.com/4drian0rtiz/SuperList" target="_blank" rel="noopener">GitHub &#9658;</a>
+					<button id="lang-toggle" class="lang" type="button">EN</button>
+				</nav>
+			</header>
 
-		<!-- Browser demo -->
-		<div class="window-wrap">
-			<div class="window">
-				<div class="window-bar">
-					<div class="dot dot-red"></div>
-					<div class="dot dot-yellow"></div>
-					<div class="dot dot-green"></div>
-					<span class="window-title" data-i18n="demo-title">SuperLista — lista de compras</span>
+			<div class="rule rule--dash"></div>
+
+			<!-- ═══════════ APERTURA ═══════════ -->
+			<section class="block open">
+				<p class="lead" data-i18n="hero-subtitle">
+					SuperLista es una app web minimalista para armar tu lista, ponerle precio y cantidad a cada
+					producto y saber en todo momento cu&aacute;nto llevas y cu&aacute;nto te queda.
+				</p>
+
+				<div class="actions">
+					<a href="#preparacion" class="btn" data-i18n="hero-btn-install">&#9654; Empezar</a>
+					<a href="https://github.com/4drian0rtiz/SuperList" target="_blank" rel="noopener"
+						class="btn btn--ghost" data-i18n="hero-btn-github">Ver en GitHub</a>
 				</div>
-				<div class="window-body">
-					<div class="demo-row is-done">
-						<span class="demo-check is-on"><i class="fa-solid fa-check"></i></span>
-						<span class="demo-name" data-i18n="demo-name-1">Leche</span>
-						<span class="demo-sub">2 × $18.00</span>
+
+				<div class="ticket-preview" aria-hidden="false">
+					<div class="tp-head">
+						<span data-i18n="demo-title">VISTA PREVIA — CARRITO</span>
 					</div>
-					<div class="demo-row is-done">
-						<span class="demo-check is-on"><i class="fa-solid fa-check"></i></span>
-						<span class="demo-name" data-i18n="demo-name-2">Pan integral</span>
-						<span class="demo-sub">1 × $42.00</span>
+					<div class="line line--done">
+						<span class="line__name" data-i18n="demo-name-1">Leche</span>
+						<span class="line__dots"></span>
+						<span class="line__val">2 &times; $18.00</span>
 					</div>
-					<div class="demo-row">
-						<span class="demo-check"></span>
-						<span class="demo-name" data-i18n="demo-name-3">Huevos</span>
-						<span class="demo-sub">—</span>
+					<div class="line line--done">
+						<span class="line__name" data-i18n="demo-name-2">Pan integral</span>
+						<span class="line__dots"></span>
+						<span class="line__val">1 &times; $42.00</span>
 					</div>
-					<div class="demo-row">
-						<span class="demo-check"></span>
-						<span class="demo-name" data-i18n="demo-name-4">Café</span>
-						<span class="demo-sub">—</span>
+					<div class="line">
+						<span class="line__name" data-i18n="demo-name-3">Huevos</span>
+						<span class="line__dots"></span>
+						<span class="line__val">--</span>
 					</div>
-					<div class="demo-budget">
-						<span data-i18n="demo-budget-label">Presupuesto $500.00</span>
-						<span class="demo-bar"><span></span></span>
-						<span class="demo-ok" data-i18n="demo-budget-ok">Restan $160.00</span>
+					<div class="line">
+						<span class="line__name" data-i18n="demo-name-4">Caf&eacute;</span>
+						<span class="line__dots"></span>
+						<span class="line__val">--</span>
 					</div>
+					<div class="rule rule--thin"></div>
+					<div class="line line--strong">
+						<span class="line__name" data-i18n="demo-budget-label">PRESUPUESTO $500.00</span>
+						<span class="line__dots"></span>
+						<span class="line__val stamp-mini" data-i18n="demo-budget-ok">RESTAN $160.00</span>
+					</div>
+					<div class="bar"><span style="width:68%"></span></div>
 				</div>
-			</div>
-		</div>
-	</div>
+			</section>
 
-	<hr class="divider" />
+			<div class="rule rule--dash"></div>
 
-	<!-- ══════════════════════════════ FEATURES ══════════════════════════════ -->
-	<section id="features">
-		<div class="section-label" data-i18n="features-label">// características</div>
-		<h2 data-i18n="features-title">Lo justo para hacer la compra sin cuentas mentales</h2>
-		<p data-i18n="features-subtitle">Sin registro, sin apps que instalar. Abrís el navegador y listo.</p>
+			<!-- ═══════════ DETALLE DE ARTÍCULOS (features) ═══════════ -->
+			<section class="block" id="detalle">
+				<h2 class="sec" data-i18n="features-label">&#9656; DETALLE DE ART&Iacute;CULOS &#9666;</h2>
+				<p class="note" data-i18n="features-subtitle">Sin registro, sin apps que instalar. Abr&iacute;s el
+					navegador y listo.</p>
 
-		<div class="features-grid">
-			<div class="feature-card">
-				<span class="feature-icon" aria-hidden="true"><i class="fa-solid fa-list-check"></i></span>
-				<h3 data-i18n="feat-list-title">Lista con checkbox</h3>
-				<p data-i18n="feat-list-desc">Agregá productos y marcá cada uno cuando lo pongas en el carrito. Los
-					comprados bajan al final de la lista.</p>
-			</div>
-			<div class="feature-card">
-				<span class="feature-icon" aria-hidden="true"><i class="fa-solid fa-tags"></i></span>
-				<h3 data-i18n="feat-price-title">Precio y cantidad por producto</h3>
-				<p data-i18n="feat-price-desc">Al marcar un producto le ponés precio unitario y cantidad. SuperLista
-					calcula el subtotal y el total al instante.</p>
-			</div>
-			<div class="feature-card">
-				<span class="feature-icon" aria-hidden="true"><i class="fa-solid fa-sliders"></i></span>
-				<h3 data-i18n="feat-budget-title">Presupuesto con barra</h3>
-				<p data-i18n="feat-budget-desc">Fijás un presupuesto y una barra te muestra cuánto llevas. Te avisa
-					cuánto te resta o cuánto te pasaste.</p>
-			</div>
-			<div class="feature-card">
-				<span class="feature-icon" aria-hidden="true"><i class="fa-solid fa-clock-rotate-left"></i></span>
-				<h3 data-i18n="feat-history-title">Historial de compras</h3>
-				<p data-i18n="feat-history-desc">Al terminar guardás la compra con un nombre. Queda un snapshot con
-					productos, total y presupuesto de ese día.</p>
-			</div>
-			<div class="feature-card">
-				<span class="feature-icon" aria-hidden="true"><i class="fa-solid fa-scale-balanced"></i></span>
-				<h3 data-i18n="feat-comparador-title">Comparador de precio por unidad</h3>
-				<p data-i18n="feat-comparador-desc">¿12 rollos de 200 hojas o 4 de 500? Ingresá precio y cantidad de cada
-					opción y SuperLista te dice cuál sale más barata por unidad.</p>
-			</div>
-			<div class="feature-card">
-				<span class="feature-icon" aria-hidden="true"><i class="fa-solid fa-database"></i></span>
-				<h3 data-i18n="feat-stack-title">SQLite + migraciones</h3>
-				<p data-i18n="feat-stack-desc">Flask, SQLAlchemy y Flask-Migrate/Alembic. Sin servidor de base de datos:
-					un archivo SQLite y listo.</p>
-			</div>
-		</div>
-	</section>
-
-	<hr class="divider" />
-
-	<!-- ══════════════════════════════ INSTALACIÓN ══════════════════════════════ -->
-	<section id="instalacion">
-		<div class="section-label" data-i18n="install-label">// instalación</div>
-		<h2 data-i18n="install-title">Corriendo en local en 3 pasos</h2>
-		<p data-i18n="install-subtitle">Necesitás Python 3.10 o superior. La base de datos es un archivo SQLite que se
-			crea con las migraciones.</p>
-
-		<div class="steps">
-			<div class="step">
-				<div class="step-num">01</div>
-				<div class="step-content">
-					<h3 data-i18n="install-step1">Clona el repositorio</h3>
-					<p data-i18n="install-step1-desc">Descarga SuperLista desde GitHub.</p>
-					<div class="code-block">
-						<div class="code-header">
-							<span class="code-lang">bash</span>
-							<span data-i18n="install-clone-label">clonar</span>
-						</div>
-						<div class="code-body">
-							<span class="c-cmd">git clone https://github.com/4drian0rtiz/SuperList.git</span><br />
-							<span class="c-cmd">cd SuperList</span>
-						</div>
-					</div>
+				<div class="line">
+					<span class="line__name" data-i18n="feat-list-title">Lista con checkbox</span>
+					<span class="line__dots"></span>
+					<span class="line__val" data-i18n="feat-val">INCLUIDO</span>
 				</div>
-			</div>
+				<p class="line__note" data-i18n="feat-list-desc">Agreg&aacute; productos y marc&aacute; cada uno cuando lo
+					pongas en el carrito. Los comprados bajan al final de la lista.</p>
 
-			<div class="step">
-				<div class="step-num">02</div>
-				<div class="step-content">
-					<h3 data-i18n="install-step2">Crea el entorno virtual e instala dependencias</h3>
-					<p data-i18n="install-step2-desc">Un virtualenv aislado con las dependencias de requirements.txt.</p>
-					<div class="code-block">
-						<div class="code-header">
-							<span class="code-lang">bash</span>
-							<span>terminal</span>
-						</div>
-						<div class="code-body">
-							<span class="c-cmd">python -m venv venv</span><br />
-							<span class="c-cmd">source venv/bin/activate</span><br />
-							<span class="c-cmd">pip install -r requirements.txt</span>
-						</div>
-					</div>
-					<div class="callout callout-info">
-						<span class="callout-icon" aria-hidden="true"><i class="fa-solid fa-circle-info"></i></span>
-						<p><span data-i18n="install-step2-note">En Windows el activador es
-								<code>venv\Scripts\activate</code>.</span></p>
-					</div>
+				<div class="line">
+					<span class="line__name" data-i18n="feat-price-title">Precio y cantidad por producto</span>
+					<span class="line__dots"></span>
+					<span class="line__val" data-i18n="feat-val">INCLUIDO</span>
 				</div>
-			</div>
+				<p class="line__note" data-i18n="feat-price-desc">Al marcar un producto le pon&eacute;s precio unitario y
+					cantidad. SuperLista calcula el subtotal y el total al instante.</p>
 
-			<div class="step">
-				<div class="step-num">03</div>
-				<div class="step-content">
-					<h3 data-i18n="install-step3">Prepara la base y levanta el servidor</h3>
-					<p data-i18n="install-step3-desc">flask db upgrade aplica las migraciones y crea
-						instance/superlist.db. run.py levanta el servidor de desarrollo.</p>
-					<div class="code-block">
-						<div class="code-header">
-							<span class="code-lang">bash</span>
-							<span>terminal</span>
-						</div>
-						<div class="code-body">
-							<span class="c-key">export</span> <span class="c-cmd">FLASK_APP=run.py</span><br />
-							<span class="c-cmd">flask db upgrade</span><br />
-							<span class="c-cmd">python run.py</span>
-						</div>
-					</div>
-					<div class="callout callout-info">
-						<span class="callout-icon" aria-hidden="true"><i class="fa-solid fa-circle-info"></i></span>
-						<p><span data-i18n="install-step3-note">Abre <code>http://localhost:5002</code>. Copia
-								<code>.env.example</code> a <code>.env</code> para ajustar el puerto o la base.</span></p>
-					</div>
+				<div class="line">
+					<span class="line__name" data-i18n="feat-budget-title">Presupuesto con barra</span>
+					<span class="line__dots"></span>
+					<span class="line__val" data-i18n="feat-val">INCLUIDO</span>
 				</div>
-			</div>
-		</div>
-	</section>
+				<p class="line__note" data-i18n="feat-budget-desc">Fij&aacute;s un presupuesto y una barra te muestra
+					cu&aacute;nto llevas. Te avisa cu&aacute;nto te resta o cu&aacute;nto te pasaste.</p>
 
-	<hr class="divider" />
-
-	<!-- ══════════════════════════════ USO ══════════════════════════════ -->
-	<section id="uso">
-		<div class="section-label" data-i18n="usage-label">// uso</div>
-		<h2 data-i18n="usage-title">Cómo se usa</h2>
-		<p data-i18n="usage-subtitle">Tres pantallas, accesibles desde el menú lateral.</p>
-
-		<table>
-			<thead>
-				<tr>
-					<th data-i18n="usage-page-header">Pantalla</th>
-					<th data-i18n="usage-what-header">Para qué sirve</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td><code>/</code></td>
-					<td data-i18n="usage-page1">Armar la lista, poner precios y fijar el presupuesto.</td>
-				</tr>
-				<tr>
-					<td><code>/comparador</code></td>
-					<td data-i18n="usage-page2">Comparar el precio real por unidad de varias presentaciones.</td>
-				</tr>
-				<tr>
-					<td><code>/history</code></td>
-					<td data-i18n="usage-page3">Ver las compras guardadas con su total y presupuesto.</td>
-				</tr>
-			</tbody>
-		</table>
-
-		<div style="margin-top:2rem;">
-			<h3 style="font-size:1.05rem; margin-bottom:1rem;" data-i18n="usage-flow-title">Una compra, de principio a
-				fin</h3>
-			<div class="steps">
-				<div class="step">
-					<div class="step-num">1</div>
-					<div class="step-content">
-						<h3 data-i18n="usage-step1">Añade productos</h3>
-						<p data-i18n="usage-step1-desc">Escribe el nombre y pulsa Añadir. Repite para cada producto de la
-							lista.</p>
-					</div>
+				<div class="line">
+					<span class="line__name" data-i18n="feat-history-title">Historial de compras</span>
+					<span class="line__dots"></span>
+					<span class="line__val" data-i18n="feat-val">INCLUIDO</span>
 				</div>
-				<div class="step">
-					<div class="step-num">2</div>
-					<div class="step-content">
+				<p class="line__note" data-i18n="feat-history-desc">Al terminar guard&aacute;s la compra con un nombre.
+					Queda un snapshot con productos, total y presupuesto de ese d&iacute;a.</p>
+
+				<div class="line">
+					<span class="line__name" data-i18n="feat-comparador-title">Comparador de precio por unidad</span>
+					<span class="line__dots"></span>
+					<span class="line__val" data-i18n="feat-val">INCLUIDO</span>
+				</div>
+				<p class="line__note" data-i18n="feat-comparador-desc">&iquest;12 rollos de 200 hojas o 4 de 500?
+					Ingres&aacute; precio y cantidad de cada opci&oacute;n y SuperLista te dice cu&aacute;l sale
+					m&aacute;s barata por unidad.</p>
+
+				<div class="line">
+					<span class="line__name" data-i18n="feat-stack-title">SQLite + migraciones</span>
+					<span class="line__dots"></span>
+					<span class="line__val" data-i18n="feat-val">INCLUIDO</span>
+				</div>
+				<p class="line__note" data-i18n="feat-stack-desc">Flask, SQLAlchemy y Flask-Migrate/Alembic. Sin servidor
+					de base de datos: un archivo SQLite y listo.</p>
+			</section>
+
+			<div class="rule rule--dash"></div>
+
+			<!-- ═══════════ INSTRUCCIONES DE PREPARACIÓN (instalación) ═══════════ -->
+			<section class="block" id="preparacion">
+				<h2 class="sec" data-i18n="install-label">&#9656; INSTRUCCIONES DE PREPARACI&Oacute;N &#9666;</h2>
+				<p class="note" data-i18n="install-subtitle">Necesit&aacute;s Python 3.10 o superior. La base de datos es
+					un archivo SQLite que se crea con las migraciones.</p>
+
+				<ol class="steps">
+					<li>
+						<h3 data-i18n="install-step1">Clona el repositorio</h3>
+						<p class="line__note" data-i18n="install-step1-desc">Descarga SuperLista desde GitHub.</p>
+						<div class="term code-block">
+							<div class="term__bar code-header">&gt;_ <span data-i18n="code-terminal">TERMINAL</span></div>
+							<pre class="code-body"><code>git clone https://github.com/4drian0rtiz/SuperList.git
+cd SuperList</code></pre>
+						</div>
+					</li>
+					<li>
+						<h3 data-i18n="install-step2">Crea el entorno virtual e instala dependencias</h3>
+						<p class="line__note" data-i18n="install-step2-desc">Un virtualenv aislado con las dependencias de
+							requirements.txt.</p>
+						<div class="term code-block">
+							<div class="term__bar code-header">&gt;_ <span data-i18n="code-terminal">TERMINAL</span></div>
+							<pre class="code-body"><code>python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt</code></pre>
+						</div>
+						<p class="callout" data-i18n="install-step2-note">En Windows el activador es
+							<code>venv\Scripts\activate</code>.</p>
+					</li>
+					<li>
+						<h3 data-i18n="install-step3">Prepara la base y levanta el servidor</h3>
+						<p class="line__note" data-i18n="install-step3-desc">flask db upgrade aplica las migraciones y crea
+							instance/superlist.db. run.py levanta el servidor de desarrollo.</p>
+						<div class="term code-block">
+							<div class="term__bar code-header">&gt;_ <span data-i18n="code-terminal">TERMINAL</span></div>
+							<pre class="code-body"><code>export FLASK_APP=run.py
+flask db upgrade
+python run.py</code></pre>
+						</div>
+						<p class="callout" data-i18n="install-step3-note">Abre <code>http://localhost:5002</code>. Copia
+							<code>.env.example</code> a <code>.env</code> para ajustar el puerto o la base.</p>
+					</li>
+				</ol>
+			</section>
+
+			<div class="rule rule--dash"></div>
+
+			<!-- ═══════════ MODO DE EMPLEO (uso) ═══════════ -->
+			<section class="block" id="empleo">
+				<h2 class="sec" data-i18n="usage-label">&#9656; MODO DE EMPLEO &#9666;</h2>
+				<p class="note" data-i18n="usage-subtitle">Tres pantallas, accesibles desde el men&uacute; lateral.</p>
+
+				<div class="line line--head">
+					<span class="line__name" data-i18n="usage-page-header">Pantalla</span>
+					<span class="line__dots"></span>
+					<span class="line__val" data-i18n="usage-what-header">Para qu&eacute; sirve</span>
+				</div>
+				<div class="line"><span class="line__name"><code>/</code></span><span class="line__dots"></span><span
+						class="line__val line__val--text" data-i18n="usage-page1">Armar la lista y el
+						presupuesto.</span></div>
+				<div class="line"><span class="line__name"><code>/comparador</code></span><span
+						class="line__dots"></span><span class="line__val line__val--text" data-i18n="usage-page2">Precio
+						real por unidad.</span></div>
+				<div class="line"><span class="line__name"><code>/history</code></span><span
+						class="line__dots"></span><span class="line__val line__val--text" data-i18n="usage-page3">Compras
+						guardadas.</span></div>
+
+				<h3 class="mini-title" data-i18n="usage-flow-title">Una compra, de principio a fin</h3>
+				<ol class="steps steps--tight">
+					<li>
+						<h3 data-i18n="usage-step1">A&ntilde;ade productos</h3>
+						<p class="line__note" data-i18n="usage-step1-desc">Escribe el nombre y pulsa A&ntilde;adir. Repite
+							para cada producto.</p>
+					</li>
+					<li>
 						<h3 data-i18n="usage-step2">Fija el presupuesto</h3>
-						<p data-i18n="usage-step2-desc">Abre el panel de presupuesto e ingresa el monto. La barra empieza a
-							llenarse a medida que cargas precios.</p>
-					</div>
-				</div>
-				<div class="step">
-					<div class="step-num">3</div>
-					<div class="step-content">
+						<p class="line__note" data-i18n="usage-step2-desc">Abre el panel de presupuesto e ingresa el monto.
+							La barra empieza a llenarse.</p>
+					</li>
+					<li>
 						<h3 data-i18n="usage-step3">Marca y pon precio</h3>
-						<p data-i18n="usage-step3-desc">Cuando pones un producto en el carrito lo marcas, le pones cantidad
-							y precio unitario. El subtotal aparece al lado.</p>
-					</div>
-				</div>
-				<div class="step">
-					<div class="step-num">4</div>
-					<div class="step-content">
+						<p class="line__note" data-i18n="usage-step3-desc">Al ponerlo en el carrito lo marcas y le pones
+							cantidad y precio unitario. El subtotal aparece al lado.</p>
+					</li>
+					<li>
 						<h3 data-i18n="usage-step4">Vigila el total</h3>
-						<p data-i18n="usage-step4-desc">El pie de la lista muestra el total y si te resta dinero o te
-							pasaste del presupuesto.</p>
-					</div>
-				</div>
-				<div class="step">
-					<div class="step-num">5</div>
-					<div class="step-content">
+						<p class="line__note" data-i18n="usage-step4-desc">El pie de la lista muestra el total y si te resta
+							o te pasaste del presupuesto.</p>
+					</li>
+					<li>
 						<h3 data-i18n="usage-step5">Guarda la compra</h3>
-						<p data-i18n="usage-step5-desc">Pon un nombre (ej: Semanal) y guarda. Los productos comprados pasan
-							al historial y la lista queda limpia para la próxima.</p>
-					</div>
+						<p class="line__note" data-i18n="usage-step5-desc">Pon un nombre (ej: Semanal) y guarda. Pasa al
+							historial y la lista queda limpia.</p>
+					</li>
+				</ol>
+			</section>
+
+			<div class="rule rule--dash"></div>
+
+			<!-- ═══════════ COMPARADOR ═══════════ -->
+			<section class="block" id="comparador">
+				<h2 class="sec" data-i18n="comparador-label">&#9656; COMPARADOR DE PRECIO UNITARIO &#9666;</h2>
+				<p class="note" data-i18n="comparador-subtitle">El producto m&aacute;s barato no siempre es el que cuesta
+					menos.</p>
+
+				<p class="line__note" data-i18n="comparador-p1">Ingresa una unidad de comparaci&oacute;n (hojas, ml, g,
+					unidad) y, por cada opci&oacute;n, su precio y la cantidad total que trae. SuperLista divide precio
+					entre cantidad y ordena de m&aacute;s barato a m&aacute;s caro por unidad.</p>
+				<p class="line__note" data-i18n="comparador-p2">En la cantidad puedes usar <code>*</code> para multiplicar
+					presentaciones sin sacar la cuenta a mano.</p>
+
+				<div class="term term--calc">
+					<div class="term__bar" data-i18n="comparador-example-label">EJEMPLO — UNIDAD: HOJAS</div>
+					<div class="line"><span class="line__name">Opci&oacute;n 1 &nbsp; $85.00 &nbsp; 12 * 200</span><span
+							class="line__dots"></span><span class="line__val">$0.0354 / hoja</span></div>
+					<div class="line"><span class="line__name">Opci&oacute;n 2 &nbsp; $40.00 &nbsp; 4 * 500</span><span
+							class="line__dots"></span><span class="line__val stamp-mini"
+							data-i18n="comparador-winner">GANADOR &#8594; $0.0200</span></div>
 				</div>
-			</div>
+
+				<p class="callout" data-i18n="comparador-note">12 rollos de 200 hojas = 2400 hojas. Si cuesta $85, el
+					precio por hoja es $0.0354.</p>
+			</section>
+
+			<div class="rule rule--dash"></div>
+
+			<!-- ═══════════ CONFIGURACIÓN ═══════════ -->
+			<section class="block" id="config">
+				<h2 class="sec" data-i18n="config-label">&#9656; PARAMETR&Iacute;A (.env) &#9666;</h2>
+				<p class="note" data-i18n="config-subtitle">Todo opcional en desarrollo. Copia .env.example a .env y ajusta
+					lo que necesites.</p>
+
+				<div class="line"><span class="line__name"><code>FLASK_ENV</code></span><span
+						class="line__dots"></span><span class="line__val line__val--text" data-i18n="config-var-env">development
+						| testing | production.</span></div>
+				<div class="line"><span class="line__name"><code>SECRET_KEY</code></span><span
+						class="line__dots"></span><span class="line__val line__val--text" data-i18n="config-var-secret">Clave
+						de sesi&oacute;n. Obligatoria en production.</span></div>
+				<div class="line"><span class="line__name"><code>DATABASE_URL</code></span><span
+						class="line__dots"></span><span class="line__val line__val--text" data-i18n="config-var-db">Por
+						defecto sqlite:///instance/superlist.db.</span></div>
+				<div class="line"><span class="line__name"><code>PORT</code></span><span class="line__dots"></span><span
+						class="line__val line__val--text" data-i18n="config-var-port">Puerto de run.py. Por defecto
+						5002.</span></div>
+
+				<p class="callout callout--warn" data-i18n="config-prod-warning">En production el arranque falla si
+					SECRET_KEY sigue siendo el valor por defecto. Define uno propio antes de desplegar.</p>
+
+				<h3 class="mini-title" data-i18n="config-import-title">Importar historial anterior</h3>
+				<p class="line__note" data-i18n="config-import-desc">Si vienes de la versi&oacute;n con history.json,
+					<code>flask import-history</code> carga esas compras a SQLite. Es idempotente: omite las que ya
+					existen.</p>
+				<div class="term code-block">
+					<div class="term__bar code-header">&gt;_ <span data-i18n="code-terminal">TERMINAL</span></div>
+					<pre class="code-body"><code>flask import-history --path history.json</code></pre>
+				</div>
+			</section>
+
+			<div class="rule rule--dash"></div>
+
+			<!-- ═══════════ ARTÍCULOS PENDIENTES (roadmap) ═══════════ -->
+			<section class="block" id="pendientes">
+				<h2 class="sec" data-i18n="roadmap-label">&#9656; ART&Iacute;CULOS PENDIENTES &#9666;</h2>
+				<p class="note" data-i18n="roadmap-subtitle">Lo hecho y lo planeado.</p>
+				<div id="roadmap-content">
+					<p class="empty" data-i18n="roadmap-loading">Cargando roadmap&hellip;</p>
+				</div>
+			</section>
+
+			<div class="rule rule--dash"></div>
+
+			<!-- ═══════════ HISTORIAL DE TRANSACCIONES (changelog) ═══════════ -->
+			<section class="block" id="historial">
+				<h2 class="sec" data-i18n="changelog-label">&#9656; HISTORIAL DE TRANSACCIONES &#9666;</h2>
+				<div id="changelog-content">
+					<p class="empty" data-i18n="changelog-loading">Cargando changelog&hellip;</p>
+				</div>
+				<p class="callout"><span data-i18n="changelog-full">Historial completo: </span><a
+						href="https://github.com/4drian0rtiz/SuperList/blob/main/CHANGELOG.md" target="_blank"
+						rel="noopener">CHANGELOG.md</a></p>
+			</section>
+
+			<div class="rule rule--double"></div>
+
+			<!-- ═══════════ TOTAL ═══════════ -->
+			<section class="block totals">
+				<div class="line"><span class="line__name" data-i18n="total-items">ART&Iacute;CULOS</span><span
+						class="line__dots"></span><span class="line__val">6</span></div>
+				<div class="line"><span class="line__name" data-i18n="total-subtotal">SUBTOTAL</span><span
+						class="line__dots"></span><span class="line__val">$0.00</span></div>
+				<div class="line"><span class="line__name" data-i18n="total-discount">DESCUENTO OSS</span><span
+						class="line__dots"></span><span class="line__val">-$0.00</span></div>
+				<div class="line"><span class="line__name" data-i18n="total-tax">IVA</span><span
+						class="line__dots"></span><span class="line__val">$0.00</span></div>
+				<div class="rule rule--double"></div>
+				<div class="line line--total"><span class="line__name" data-i18n="total-label">TOTAL</span><span
+						class="line__dots"></span><span class="line__val">$0.00</span></div>
+				<p class="total-note" data-i18n="total-license">LICENCIA MIT &mdash; GRATIS PARA SIEMPRE</p>
+			</section>
+
+			<div class="rule rule--double"></div>
+
+			<footer class="foot">
+				<p class="thanks" data-i18n="thanks">*** GRACIAS POR TU COMPRA ***</p>
+				<p class="barcode" aria-hidden="true">*SUPERLISTA-0.1.0*</p>
+				<p class="foot-links">
+					<a href="https://github.com/4drian0rtiz" target="_blank" rel="noopener">4drian0rtiz</a> &nbsp;·&nbsp;
+					<a href="https://github.com/4drian0rtiz/SuperList" target="_blank" rel="noopener">GitHub</a> &nbsp;·&nbsp;
+					<a href="https://github.com/4drian0rtiz/SuperList/blob/main/CHANGELOG.md" target="_blank"
+						rel="noopener">CHANGELOG</a>
+				</p>
+				<p class="tagline" data-i18n="footer-tagline">Hecho para hacer la compra, no cuentas.</p>
+				<p id="footer-updated" class="updated"></p>
+			</footer>
+
 		</div>
-	</section>
+	</main>
 
-	<hr class="divider" />
-
-	<!-- ══════════════════════════════ COMPARADOR ══════════════════════════════ -->
-	<section id="comparador">
-		<div class="section-label" data-i18n="comparador-label">// comparador</div>
-		<h2 data-i18n="comparador-title">Comparador de precio por unidad</h2>
-		<p data-i18n="comparador-subtitle">El producto más barato no siempre es el que cuesta menos.</p>
-
-		<p style="color:var(--muted); margin-bottom:1rem;" data-i18n="comparador-p1">Ingresa una unidad de comparación
-			(hojas, ml, g, unidad) y luego, por cada opción, su precio y la cantidad total que trae. SuperLista divide
-			precio entre cantidad y ordena de más barato a más caro por unidad.</p>
-		<p style="color:var(--muted); margin-bottom:1rem;" data-i18n="comparador-p2">En la cantidad puedes usar
-			<code>*</code> para multiplicar presentaciones sin sacar la cuenta a mano.</p>
-
-		<div class="code-block">
-			<div class="code-header">
-				<span class="code-lang">texto</span>
-				<span data-i18n="comparador-example-label">ejemplo</span>
-			</div>
-			<div class="code-body">
-				<span class="c-comment"># Unidad: hojas</span><br />
-				<span class="c-key">Opción 1</span> — <span class="c-cmd">$85.00</span> · <span
-					class="c-num">12 * 200</span> <span class="c-comment"># = 2400 hojas → $0.0354/hoja</span><br />
-				<span class="c-key">Opción 2</span> — <span class="c-cmd">$40.00</span> · <span
-					class="c-num">4 * 500</span> <span class="c-comment"># = 2000 hojas → $0.0200/hoja</span>
-			</div>
-		</div>
-
-		<div class="callout callout-info">
-			<span class="callout-icon" aria-hidden="true"><i class="fa-solid fa-lightbulb"></i></span>
-			<p data-i18n="comparador-note">12 rollos de 200 hojas = 2400 hojas. Si cuesta $85, el precio por hoja es
-				$0.0354.</p>
-		</div>
-	</section>
-
-	<hr class="divider" />
-
-	<!-- ══════════════════════════════ CONFIGURACIÓN ══════════════════════════════ -->
-	<section id="configuracion">
-		<div class="section-label" data-i18n="config-label">// configuración</div>
-		<h2 data-i18n="config-title">Variables de entorno</h2>
-		<p data-i18n="config-subtitle">Todo opcional en desarrollo. Copia .env.example a .env y ajusta lo que necesites.
-		</p>
-
-		<table>
-			<thead>
-				<tr>
-					<th style="width:30%;" data-i18n="config-var-header">Variable</th>
-					<th data-i18n="config-desc-header">Descripción</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td><code>FLASK_ENV</code></td>
-					<td data-i18n="config-var-env">development | testing | production. Define el modo y la configuración
-						activa.</td>
-				</tr>
-				<tr>
-					<td><code>SECRET_KEY</code></td>
-					<td data-i18n="config-var-secret">Clave de sesión de Flask. Obligatoria en production; en desarrollo se
-						usa un valor por defecto inseguro.</td>
-				</tr>
-				<tr>
-					<td><code>DATABASE_URL</code></td>
-					<td data-i18n="config-var-db">URL de la base. Por defecto sqlite:///instance/superlist.db.</td>
-				</tr>
-				<tr>
-					<td><code>PORT</code></td>
-					<td data-i18n="config-var-port">Puerto del servidor de desarrollo (run.py). Por defecto 5002.</td>
-				</tr>
-			</tbody>
-		</table>
-
-		<div class="callout callout-warn" style="margin-top:1.5rem;">
-			<span class="callout-icon" aria-hidden="true"><i class="fa-solid fa-triangle-exclamation"></i></span>
-			<p data-i18n="config-prod-warning">En production el arranque falla si SECRET_KEY sigue siendo el valor por
-				defecto. Define uno propio antes de desplegar.</p>
-		</div>
-
-		<h3 style="margin-top:2.5rem; margin-bottom:.75rem; font-size:1.1rem;" data-i18n="config-import-title">Importar
-			historial anterior</h3>
-		<p style="color:var(--muted); margin-bottom:1rem; font-size:.9rem;" data-i18n="config-import-desc">Si vienes de la
-			versión con history.json, <code>flask import-history</code> carga esas compras a SQLite. Es idempotente: omite
-			las que ya existen.</p>
-
-		<div class="code-block">
-			<div class="code-header">
-				<span class="code-lang">bash</span>
-				<span>terminal</span>
-			</div>
-			<div class="code-body">
-				<span class="c-cmd">flask import-history</span> <span class="c-flag">--path</span> <span
-					class="c-str">history.json</span>
-			</div>
-		</div>
-	</section>
-
-	<hr class="divider" />
-
-	<!-- ══════════════════════════════ ROADMAP ══════════════════════════════ -->
-	<section id="roadmap">
-		<div class="section-label" data-i18n="roadmap-label">// roadmap</div>
-		<h2 data-i18n="roadmap-title">Qué viene</h2>
-		<p data-i18n="roadmap-subtitle">Lo hecho y lo planeado.</p>
-
-		<div id="roadmap-content" style="margin-top: 1.5rem;">
-			<p class="changelog-empty" data-i18n="roadmap-loading">Cargando roadmap…</p>
-		</div>
-	</section>
-
-	<hr class="divider" />
-
-	<!-- ══════════════════════════════ CHANGELOG ══════════════════════════════ -->
-	<section id="changelog">
-		<div class="section-label" data-i18n="changelog-label">// changelog</div>
-		<h2 data-i18n="changelog-title">Historial de versiones</h2>
-
-		<div id="changelog-content" style="margin-top: 1.5rem;">
-			<p class="changelog-empty" data-i18n="changelog-loading">Cargando changelog…</p>
-		</div>
-
-		<div class="callout callout-info" style="margin-top:1.5rem;">
-			<span class="callout-icon" aria-hidden="true"><i class="fa-solid fa-file-lines"></i></span>
-			<p><span data-i18n="changelog-full">Historial completo: </span><a
-					href="https://github.com/4drian0rtiz/SuperList/blob/main/CHANGELOG.md" target="_blank"
-					rel="noopener">CHANGELOG.md</a></p>
-		</div>
-	</section>
-
-	<hr class="divider" />
-
-	<!-- ══════════════════════════════ FOOTER ══════════════════════════════ -->
-	<footer>
-		<div class="footer-brand">{ SuperLista }</div>
-		<p>
-			<a href="https://github.com/4drian0rtiz" target="_blank" rel="noopener">4drian0rtiz</a> ·
-			<a href="https://github.com/4drian0rtiz/SuperList" target="_blank" rel="noopener">GitHub</a> ·
-			<a href="https://github.com/4drian0rtiz/SuperList/blob/main/CHANGELOG.md" target="_blank"
-				rel="noopener">CHANGELOG</a>
-		</p>
-		<p style="margin-top:.5rem; font-size:.78rem;" data-i18n="footer-tagline">Hecho para hacer la compra, no cuentas.
-		</p>
-		<p id="footer-updated" style="margin-top:.5rem; font-size:.78rem;"></p>
-	</footer>
+	<button class="totop" id="totop" type="button" aria-label="Volver arriba">&#9650;</button>
 
 	<script src="script.js"></script>
-
 </body>
 
 </html>
