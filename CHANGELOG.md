@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+### Documentation
+
+- Add project overview and setup guide ([37f715a](https://github.com/4drian0rtiz/SuperList/commit/37f715ad5e0931a7fa6288244d20db0c1a362912))
+
 ## [0.2.1] - 2026-10-01
 
 ### Style
